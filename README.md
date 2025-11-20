@@ -1,3 +1,10 @@
+## Reference & Resource
+- [Open AI cookbook - introduction to deepresearch in OpenAI with api](https://cookbook.openai.com/examples/deep_research_api/introduction_to_deep_research_api)
+- [Ollama - Different between /generate/response vs /generate/chat](https://github.com/ollama/ollama/issues/2774)
+- [Ollama - Web Searcgh](https://ollama.com/blog/web-search)
+- [GitHub repo - Ollama, BeautifulSoup, and Selenium](https://github.com/laxmimerit/Langchain-and-Ollama) [YouTube](https://www.youtube.com/watch?v=5VaSVeEYXgU)
+- [Kdunggets - 7 free web search apis for AI agents](https://www.kdnuggets.com/7-free-web-search-apis-for-ai-agents)
+- 
 ## Resources:
 - [docker image - ollama](https://hub.docker.com/r/ollama/ollama)
 - [docker image - n8n](https://hub.docker.com/r/n8nio/n8n)
@@ -5,3 +12,14 @@
 - [n8n doc - deployment env variables](https://docs.n8n.io/hosting/configuration/environment-variables/deployment/)
 - [Baeldung - Generate Self-signed Cert](https://www.baeldung.com/openssl-self-signed-cert)
 - [open webui - environment variable configuration](https://docs.openwebui.com/getting-started/env-configuration/)
+
+## API References:
+- [Ollama - Generate Response (support thinking)](https://docs.ollama.com/api/generate)
+- [Ollama - Generate Chat Message (support tools)](https://docs.ollama.com/api/chat)
+- [OpenAI - Create model response](https://platform.openai.com/docs/api-reference/responses/create)
+
+## Tools
+- [The Prompt Index](https://www.thepromptindex.com/index.php)
+- [n8n](https://n8n.io/)
+- [Open WebUI](https://docs.openwebui.com/)
+- [Langfuse](https://langfuse.com/?tab=annotations)
