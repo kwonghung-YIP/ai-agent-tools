@@ -23,3 +23,6 @@
 - [n8n](https://n8n.io/)
 - [Open WebUI](https://docs.openwebui.com/)
 - [Langfuse](https://langfuse.com/?tab=annotations)
+- [LlamaIndex](https://www.llamaindex.ai/)
+- [Jinja Template engine](https://jinja.palletsprojects.com/en/stable/)
+- [Prompty](https://prompty.ai/)
