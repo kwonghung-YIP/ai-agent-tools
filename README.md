@@ -14,6 +14,9 @@
 - [open webui - environment variable configuration](https://docs.openwebui.com/getting-started/env-configuration/)
 - [Prompt Engineering Guide - Chain of throught](https://www.promptingguide.ai/techniques/cot)
 - [YouTube - Dave Ebbelaar - Prompt Management 101](https://www.youtube.com/watch?v=Qddc_DNo9qY)
+- [Langfuse - Self Hosting - Docker Compose](https://langfuse.com/self-hosting/deployment/docker-compose)
+- [Python template engine collection](https://gist.github.com/twolfson/b861c182107cefcef086266c3b4b83a6)
+- [Datacamp - The Best AI Agents in 2025](https://www.datacamp.com/blog/best-ai-agents)
 
 ## API References:
 - [Ollama - Generate Response (support thinking)](https://docs.ollama.com/api/generate)
@@ -28,3 +31,5 @@
 - [LlamaIndex](https://www.llamaindex.ai/)
 - [Jinja Template engine](https://jinja.palletsprojects.com/en/stable/)
 - [Prompty](https://prompty.ai/)
+- [OpenAI platform](https://platform.openai.com/)
+- [Google AI Studio](https://aistudio.google.com/)
