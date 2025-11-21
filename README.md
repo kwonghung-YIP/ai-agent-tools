@@ -4,7 +4,15 @@
 - [Ollama - Web Searcgh](https://ollama.com/blog/web-search)
 - [GitHub repo - Ollama, BeautifulSoup, and Selenium](https://github.com/laxmimerit/Langchain-and-Ollama) [YouTube](https://www.youtube.com/watch?v=5VaSVeEYXgU)
 - [Kdunggets - 7 free web search apis for AI agents](https://www.kdnuggets.com/7-free-web-search-apis-for-ai-agents)
-   
+
+## Google Gemini
+- [Quick Start - Text Generation](https://ai.google.dev/gemini-api/docs/text-generation#python_1)
+- [Quick Start - Thinking](https://ai.google.dev/gemini-api/docs/models)
+- [Quick Start - Function Calling](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting)
+- [Quick Start - Structure Output](https://ai.google.dev/gemini-api/docs/structured-output?example=recipe)
+- [Model List](https://ai.google.dev/gemini-api/docs/models)
+- [Prompt Engineering Guide](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+
 ## Resources:
 - [docker image - ollama](https://hub.docker.com/r/ollama/ollama)
 - [docker image - n8n](https://hub.docker.com/r/n8nio/n8n)
