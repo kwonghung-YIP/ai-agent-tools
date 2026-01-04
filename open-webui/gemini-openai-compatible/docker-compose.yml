@@ -1,0 +1,21 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${OPENWEBUI_TAG:-v0.6.43}
+    container_name: open-webui
+    ports:
+      - 8080:8080
+    volumes:
+      - open-webui-data:/app/backend/data
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      - WEB_URI=http://${VM_IP_ADDRESS}:8080
+      - WEBUI_AUTH=False
+      - DEFAULT_MODELS=models/gemini-2.5-flash-lite
+      - DEFAULT_PINNED_MODELS=models/gemini-2.5-flash-lite,models/gemini-2.5-flash,models/gemini-3-flash-preview
+      - OPENAI_API_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+volumes:
+  open-webui-data:
+    name: open-webui-data
