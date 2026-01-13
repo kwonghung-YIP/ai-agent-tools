@@ -1,6 +1,6 @@
 services:
   ollama:
-    image: ollama/ollama:0.14.0
+    image: ollama/ollama:0.13.5
     container_name: ollama
     ports:
       - 11434:11434
@@ -22,6 +22,8 @@ services:
     environment:
       - WEB_URI=http://${VM_IP_ADDRESS}:8080
       - WEBUI_AUTH=False
+      - DEFAULT_MODELS=gpt-oss:20b
+      - DEFAULT_PINNED_MODELS=gpt-oss:20b
       - OLLAMA_BASE_URL=http://ollama:11434
 
 

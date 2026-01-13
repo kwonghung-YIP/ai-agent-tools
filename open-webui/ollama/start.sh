@@ -4,3 +4,6 @@
 export VM_IP_ADDRESS=$(/sbin/ip -o -4 addr list ens33 | awk '{print $4}' | cut -d/ -f1)
 echo $VM_IP_ADDRESS
 docker compose up
+
+docker exec -it ollama ollama pull functiongemma:270m
+docker exec -it ollama ollama pull git-oss:20b
