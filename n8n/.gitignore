@@ -1,1 +1,4 @@
-certs/n8n*
+**/certs/*.key
+**/certs/*.csr
+**/certs/*.crt
+
