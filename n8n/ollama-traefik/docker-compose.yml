@@ -3,14 +3,21 @@ services:
     image: traefik:v3.6
     container_name: traefik
     command:
+      # for traefik commands configuration options 
+      # https://doc.traefik.io/traefik/reference/install-configuration/boot-environment/
+      #- "--api.debug=true"
+      #- "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.file.filename=/etc/traefik/tls_config.yml"
-      - "--api.dashboard=true"
-      - "--api.insecure=false"
     ports:
       - 80:80
       - 443:443
@@ -23,7 +30,13 @@ services:
     secrets:
       - traefik_ssl_key
       - traefik_ssl_cert
-  
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik-dashboard.hung.org`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls=true"
+
   #whoami:
   #  image: traefik/whoami
   #  container_name: whoami
