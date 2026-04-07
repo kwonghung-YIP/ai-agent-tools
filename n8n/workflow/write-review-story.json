@@ -1,0 +1,500 @@
+{
+  "name": "write-review-story",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/:id1",
+        "authentication": "basicAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "3b9d97e2-baa5-4f75-8187-4b4b8dad6fb1",
+      "name": "Webhook",
+      "webhookId": "7ab0d5ab-ed6a-4af6-8955-e5f7085c6618",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "FH7bjEmskQfnajHg",
+          "name": "test user"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "action": "generate",
+        "dataPropertyName": "chatId"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -80
+      ],
+      "id": "84582121-07a2-4a07-8a4d-bcbf6cb1bfe2",
+      "name": "Crypto"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gemma3:4b",
+          "mode": "list",
+          "cachedResultName": "gemma3:4b"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are a great story teller and will tell a story about the given story title",
+              "role": "assistant"
+            },
+            {
+              "content": "Only the story content should be included in the output, your feedback should be excluded.",
+              "role": "assistant"
+            },
+            {
+              "content": "=<storyTitle>{{ $json.body.story.title }}</storyTitle>"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -80
+      ],
+      "id": "9fd3c302-4ff5-4631-92f7-2bf06a87bfba",
+      "name": "Write Story",
+      "credentials": {
+        "ollamaApi": {
+          "id": "I2ETgSkM6xK5tVv9",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma3:4b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        128
+      ],
+      "id": "cab7a13e-fcdc-4ee9-bca1-b72343085213",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "I2ETgSkM6xK5tVv9",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=<title>{{ $json.story.title }}</title>\n<story>{{ $json.story.editions.last() }}</story> ",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are an editor who gives comments of the story created by a story teller "
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1472,
+        -80
+      ],
+      "id": "e1a7b950-a3a1-491e-89c3-1de5cfee3603",
+      "name": "Review Story"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"anyComment\": {\n\t\t\t\"type\": \"boolean\",\n            \"description\": \"Any futher comment about the story?\"\n\t\t},\n\t\t\"editorComment\": {\n\t\t\t\"type\": \"string\",\n            \"description\": \"Editor's comments about the story\"\n\t\t}\n\t}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1664,
+        128
+      ],
+      "id": "93f1b62a-067d-4a3c-b4d6-b186418dffe1",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2336,
+        -304
+      ],
+      "id": "ff60a7ca-76b6-49d3-a71c-f96c8c999055",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"executionId\": \"{{ $execution.id }}\",\n  \"chatId\": \"{{ $json.chatId }}\",\n  \"message\": \"Your request is received\"\n}",
+        "options": {
+          "responseCode": 201
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        -80
+      ],
+      "id": "156b9c2a-995c-48b7-86ae-253abddc0a44",
+      "name": "confirm received request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = {\n  story: {\n    chatId: $('confirm received request').first().json.chatId,\n    title: $('confirm received request').first().json.body.story.title,\n    editions: [$input.first().json.content],\n    editorComments: [],\n    revision: 0\n  }\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        -80
+      ],
+      "id": "36e95099-0bbc-47af-b96c-a785fd4625a6",
+      "name": "Write Story Output"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e8c3b414-942f-4968-be19-d04f7b89d233",
+              "leftValue": "={{ $json.story.revision }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "d5b7e508-af31-42c9-b706-89ac16b2c744",
+              "leftValue": "={{ isNaN($json.story.revision) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        -80
+      ],
+      "id": "d240ec9d-7ab6-43c8-becb-e3712381ff22",
+      "name": "reach revision limit?"
+    },
+    {
+      "parameters": {
+        "jsCode": "let output = $input.first().json.output;\nlet result = $('reach revision limit?').first().json;\nresult.story.anyComment = output.anyComment;\nresult.story.editorComments.push(output.editorComment);\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1824,
+        -80
+      ],
+      "id": "9ba64e75-37a8-4c3d-bb31-17f815033e4b",
+      "name": "Review Story Output"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f215a2b-18ba-4151-9d0d-3c9ea3e6e306",
+              "leftValue": "={{ $json.story.anyComment }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2048,
+        -80
+      ],
+      "id": "6122698a-ef72-4b02-8918-42a97b889ec0",
+      "name": "No more comment?"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gemma3:4b",
+          "mode": "list",
+          "cachedResultName": "gemma3:4b"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are a story teller who updates your story base on the editor comment",
+              "role": "assistant"
+            },
+            {
+              "content": "=<title>{{ $json.story.title }}</title>\n<originalStory>{{ $json.story.editions.last() }}</originalStory>\n<editorComment>{{ $json.story.editorComments.last() }}</editorComment>"
+            },
+            {
+              "content": "The output should contains the revised story only without model feedback and comment."
+            }
+          ]
+        },
+        "options": {
+          "keep_alive": "10m"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        -32
+      ],
+      "id": "8bf0c5fe-ef27-47ea-840b-2451dc8f6061",
+      "name": "Revise Story",
+      "credentials": {
+        "ollamaApi": {
+          "id": "I2ETgSkM6xK5tVv9",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let output = $input.first().json;\nlet result = $('No more comment?').first().json;\nresult.story.editions.push(output.content);\nresult.story.revision++;\ndelete result.story.anyComment;\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2624,
+        96
+      ],
+      "id": "08f3d658-b1ec-47e6-b3bd-9c7c35ee6dbe",
+      "name": "Revise Story Output"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "confirm received request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Story": {
+      "main": [
+        [
+          {
+            "node": "Write Story Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Review Story",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Review Story",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Story": {
+      "main": [
+        [
+          {
+            "node": "Review Story Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "confirm received request": {
+      "main": [
+        [
+          {
+            "node": "Write Story",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Story Output": {
+      "main": [
+        [
+          {
+            "node": "reach revision limit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "reach revision limit?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Review Story",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Story Output": {
+      "main": [
+        [
+          {
+            "node": "No more comment?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No more comment?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Revise Story",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revise Story": {
+      "main": [
+        [
+          {
+            "node": "Revise Story Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revise Story Output": {
+      "main": [
+        [
+          {
+            "node": "reach revision limit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "6ce60304-1a22-4520-8fbe-63684780d963",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3342bffeb06630b778212f1afb37186f2c575106d81cc602f6979014e7298300"
+  },
+  "id": "OWUYq1hLWtbO3S0D",
+  "tags": []
+}

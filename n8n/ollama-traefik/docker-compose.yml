@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.6
+    image: traefik:v3.6.12
     container_name: traefik
     command:
       # for traefik commands configuration options 
@@ -46,7 +46,7 @@ services:
   #    - "traefik.http.routers.whomai.entrypoints=web"
 
   n8n:
-    image: docker.n8n.io/n8nio/n8n:2.10.4
+    image: docker.n8n.io/n8nio/n8n:2.16.0
     container_name: n8n
     #domainname: n8n.hung.org
     #ports:
@@ -64,6 +64,8 @@ services:
       - NODE_ENV=production
       - WEBHOOK_URL=https://n8n.hung.org/
       #- N8N_SECURE_COOKIE=false
+      - EXECUTIONS_TIMEOUT=-1
+      - EXECUTIONS_TIMEOUT_MAX=7200
     labels:
       - traefik.enable=true
       - traefik.http.routers.n8n.rule=Host(`n8n.hung.org`)
@@ -79,7 +81,7 @@ services:
       #- traefik.http.middlewares.n8n.headers.STSPreload=true      
 
   ollama:
-    image: ollama/ollama:0.17.7
+    image: ollama/ollama:0.20.3
     container_name: ollama
     #ports:
     #  - 11434:11434
