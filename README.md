@@ -41,3 +41,5 @@
 - [Prompty](https://prompty.ai/)
 - [OpenAI platform](https://platform.openai.com/)
 - [Google AI Studio](https://aistudio.google.com/)
+- [LM Studio](https://lmstudio.ai/)
+- [vLLM](https://vllm.ai/)
