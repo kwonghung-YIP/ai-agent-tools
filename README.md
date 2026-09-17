@@ -32,6 +32,14 @@
 - [Ollama - Generate Chat Message (support tools)](https://docs.ollama.com/api/chat)
 - [OpenAI - Create model response](https://platform.openai.com/docs/api-reference/responses/create)
 
+## Agent SDK
+- [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview)
+- [OpenAI Agent SDK](https://developers.openai.com/api/docs/guides/agents)
+- [Gemini ADK](https://adk.dev/agents/models/google-gemini/)
+- [Strands](https://strandsagents.com/docs/user-guide/quickstart/python/)
+- [Pydantic Agents](https://pydantic.dev/docs/ai/core-concepts/agent/)
+- [LangChain Deep Agent](https://docs.langchain.com/oss/python/deepagents/overview)
+
 ## Tools
 - [The Prompt Index](https://www.thepromptindex.com/index.php)
 - [n8n](https://n8n.io/)
