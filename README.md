@@ -35,6 +35,7 @@
 ## Agent SDK
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview)
 - [OpenAI Agent SDK](https://developers.openai.com/api/docs/guides/agents)
+- [OpenAI Agent SDK - GitHub](https://openai.github.io/openai-agents-python/quickstart/)
 - [Gemini ADK](https://adk.dev/agents/models/google-gemini/)
 - [Strands](https://strandsagents.com/docs/user-guide/quickstart/python/)
 - [Pydantic Agents](https://pydantic.dev/docs/ai/core-concepts/agent/)
